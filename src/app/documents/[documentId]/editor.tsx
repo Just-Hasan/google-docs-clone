@@ -11,9 +11,47 @@ import { TaskItem } from '@tiptap/extension-task-item'
 import Image from '@tiptap/extension-image'
 
 import StarterKit from '@tiptap/starter-kit'
+import { useEditorStore } from '@/store/use-editor-store'
 
 export const Editor = () => {
+  const { setEditor } = useEditorStore()
   const editor = useEditor({
+    // saat editor pertama kali dimuat / initialize
+    onCreate: ({ editor }) => {
+      setEditor(editor)
+    },
+    // saat navigate ke halaman yang berbeda dari editor
+    onDestroy: () => {
+      console.log('destroyed')
+      setEditor(null)
+    },
+    // saat mengupdate content editor
+    onUpdate: ({ editor }) => {
+      setEditor(editor)
+    },
+    // saat posisi kursor berubah, maju ketika kita mengetik, atau ketika kita mengarahkan kursor ke suatu text
+    onSelectionUpdate: ({ editor }) => {
+      console.log('kursor changed')
+
+      setEditor(editor)
+    },
+    // mendeteksi perubahan apapun
+    onTransaction: ({ editor }) => {
+      console.log('siuu')
+      setEditor(editor)
+    },
+    // saat fokus dan siap mengetik di editor
+    onFocus: ({ editor }) => {
+      setEditor(editor)
+    },
+    // saat tidak fokus dan sedang tidak mengetik
+    onBlur: ({ editor }) => {
+      setEditor(editor)
+    },
+    // saat terjadi error
+    onContentError: ({ editor }) => {
+      setEditor(editor)
+    },
     editorProps: {
       attributes: {
         style: 'padding-left: 56px; padding-right: 56px;',
