@@ -12,6 +12,7 @@ import Image from '@tiptap/extension-image'
 
 import StarterKit from '@tiptap/starter-kit'
 import { useEditorStore } from '@/store/use-editor-store'
+import Underline from '@tiptap/extension-underline'
 
 export const Editor = () => {
   const { setEditor } = useEditorStore()
@@ -69,6 +70,7 @@ export const Editor = () => {
       TableCell,
       Image,
       ImageResize,
+      Underline,
     ],
     content: `<table>
           <tbody>
