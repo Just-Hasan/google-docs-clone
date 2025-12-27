@@ -1,4 +1,6 @@
 'use client'
+import FontFamilyButton from '@/components/toolbar/font-family'
+import HeadingLevelButton from '@/components/toolbar/headings'
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
 import { useEditorStore } from '@/store/use-editor-store'
@@ -106,9 +108,10 @@ const Toolbar = () => {
       })}
       <Separator orientation="vertical" className="h-6 bg-neutral-300" />
       {/* TODO : Font Family */}
+      <FontFamilyButton />
       <Separator orientation="vertical" className="h-6 bg-neutral-300" />
 
-      {/* TODO : Heading */}
+      <HeadingLevelButton />
       <Separator orientation="vertical" className="h-6 bg-neutral-300" />
 
       {/* TODO : Font Size */}
