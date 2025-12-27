@@ -8,11 +8,12 @@ import { TableCell } from '@tiptap/extension-table-cell'
 import { TextStyle } from '@tiptap/extension-text-style'
 import FontFamily from '@tiptap/extension-font-family'
 import { Heading } from '@tiptap/extension-heading'
+import { Color } from '@tiptap/extension-color'
 import ImageResize from 'tiptap-extension-resize-image'
 import { TaskList } from '@tiptap/extension-task-list'
 import { TaskItem } from '@tiptap/extension-task-item'
 import Image from '@tiptap/extension-image'
-
+import Highlight from '@tiptap/extension-highlight'
 import StarterKit from '@tiptap/starter-kit'
 import { useEditorStore } from '@/store/use-editor-store'
 import Underline from '@tiptap/extension-underline'
@@ -79,6 +80,8 @@ export const Editor = () => {
       Heading.configure({
         levels: [1, 2, 3, 4, 5],
       }),
+      Color,
+      Highlight.configure({ multicolor: true }),
     ],
     content: `<table>
           <tbody>
@@ -89,8 +92,12 @@ export const Editor = () => {
             <tr>
               <td>Cyndi Lauper</td>
               <td>Singer</td>
-              <td>Songwriter</td>
-              <td>Actress</td>
+              <td>Songwriter <br><p>This isn’t highlighted.</s></p>
+        <p><mark>But that one is.</mark></p>
+        <p><mark style="background-color: red;">And this is highlighted too, but in a different color.</mark></p>
+        <p><mark data-color="#ffa8a8">And this one has a data attribute.</mark></p>
+</td>
+              <td>Actress <br><p><span style="color: #958DF1">Oh, for some reason that’s purple.</span> This text is using <span style="color: rgba(255, 0, 0, 0.5)">transparent, red rgba colors.</span></p></td>
             </tr>
           </tbody>
         </table>`,

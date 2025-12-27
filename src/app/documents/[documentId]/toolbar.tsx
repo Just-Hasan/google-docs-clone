@@ -1,6 +1,8 @@
 'use client'
 import FontFamilyButton from '@/components/toolbar/font-family'
 import HeadingLevelButton from '@/components/toolbar/headings'
+import HighlightColorButton from '@/components/toolbar/highlight-color'
+import TextColorButton from '@/components/toolbar/text-color'
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
 import { useEditorStore } from '@/store/use-editor-store'
@@ -119,8 +121,8 @@ const Toolbar = () => {
       {sections[1].map((item) => {
         return <ToolbarButton key={item.label} {...item} />
       })}
-      {/* TODO : Text Color */}
-      {/* TODO : Highlight Color */}
+      <TextColorButton />
+      <HighlightColorButton />
       <Separator orientation="vertical" className="h-6 bg-neutral-300" />
 
       {/* TODO : Link */}
