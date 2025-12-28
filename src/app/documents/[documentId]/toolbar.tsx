@@ -1,9 +1,11 @@
 'use client'
 import AlignButton from '@/components/toolbar/align'
 import FontFamilyButton from '@/components/toolbar/font-family'
+import FontSizeButton from '@/components/toolbar/font-size-button'
 import HeadingLevelButton from '@/components/toolbar/headings'
 import HighlightColorButton from '@/components/toolbar/highlight-color'
 import ImageButton from '@/components/toolbar/image-button'
+import LineHeightButton from '@/components/toolbar/line-height-button'
 import LinkButton from '@/components/toolbar/link-button'
 import ListButton from '@/components/toolbar/list-button'
 import TextColorButton from '@/components/toolbar/text-color'
@@ -120,7 +122,7 @@ const Toolbar = () => {
       <HeadingLevelButton />
       <Separator orientation="vertical" className="h-6 bg-neutral-300" />
 
-      {/* TODO : Font Size */}
+      <FontSizeButton />
       <Separator orientation="vertical" className="h-6 bg-neutral-300" />
       {sections[1].map((item) => {
         return <ToolbarButton key={item.label} {...item} />
@@ -132,7 +134,7 @@ const Toolbar = () => {
       <LinkButton />
       <ImageButton />
       <AlignButton />
-      {/* TODO : Line Height */}
+      <LineHeightButton />
       <ListButton />
       {sections[2].map((item) => {
         return <ToolbarButton key={item.label} {...item} />

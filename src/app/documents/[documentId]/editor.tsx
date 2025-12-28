@@ -20,6 +20,10 @@ import StarterKit from '@tiptap/starter-kit'
 import { useEditorStore } from '@/store/use-editor-store'
 import Underline from '@tiptap/extension-underline'
 
+import { FontSizeExtension } from '@/extensions/font-size'
+
+import { LineHeightExtenstion } from '@/extensions/line-height'
+
 export const Editor = () => {
   const { setEditor } = useEditorStore()
   const editor = useEditor({
@@ -68,6 +72,7 @@ export const Editor = () => {
     },
     extensions: [
       StarterKit,
+      FontSizeExtension,
       TaskList,
       TaskItem.configure({ nested: true }),
       Table.configure({ resizable: true }),
@@ -91,6 +96,10 @@ export const Editor = () => {
       }),
       TextAlign.configure({
         types: ['heading', 'paragraph'],
+      }),
+      LineHeightExtenstion.configure({
+        types: ['heading', 'paragraph'],
+        defaultLineHeight: 'normal',
       }),
     ],
     content: `<table>
