@@ -14,6 +14,7 @@ import { TaskList } from '@tiptap/extension-task-list'
 import { TaskItem } from '@tiptap/extension-task-item'
 import Image from '@tiptap/extension-image'
 import Highlight from '@tiptap/extension-highlight'
+import Link from '@tiptap/extension-link'
 import StarterKit from '@tiptap/starter-kit'
 import { useEditorStore } from '@/store/use-editor-store'
 import Underline from '@tiptap/extension-underline'
@@ -82,6 +83,11 @@ export const Editor = () => {
       }),
       Color,
       Highlight.configure({ multicolor: true }),
+      Link.configure({
+        openOnClick: false,
+        autolink: true,
+        defaultProtocol: 'https',
+      }),
     ],
     content: `<table>
           <tbody>
