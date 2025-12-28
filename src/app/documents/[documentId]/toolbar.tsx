@@ -1,9 +1,11 @@
 'use client'
+import AlignButton from '@/components/toolbar/align'
 import FontFamilyButton from '@/components/toolbar/font-family'
 import HeadingLevelButton from '@/components/toolbar/headings'
 import HighlightColorButton from '@/components/toolbar/highlight-color'
 import ImageButton from '@/components/toolbar/image-button'
 import LinkButton from '@/components/toolbar/link-button'
+import ListButton from '@/components/toolbar/list-button'
 import TextColorButton from '@/components/toolbar/text-color'
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
@@ -129,9 +131,9 @@ const Toolbar = () => {
 
       <LinkButton />
       <ImageButton />
-      {/* TODO : Align */}
+      <AlignButton />
       {/* TODO : Line Height */}
-      {/* TODO : List */}
+      <ListButton />
       {sections[2].map((item) => {
         return <ToolbarButton key={item.label} {...item} />
       })}
