@@ -103,24 +103,7 @@ export const Editor = () => {
         defaultLineHeight: 'normal',
       }),
     ],
-    content: `<table>
-          <tbody>
-            <tr>
-              <th>Name</th>
-              <th colspan="3">Description</th>
-            </tr>
-            <tr>
-              <td>Cyndi Lauper</td>
-              <td>Singer</td>
-              <td>Songwriter <br><p>This isn’t highlighted.</s></p>
-        <p><mark>But that one is.</mark></p>
-        <p><mark style="background-color: red;">And this is highlighted too, but in a different color.</mark></p>
-        <p><mark data-color="#ffa8a8">And this one has a data attribute.</mark></p>
-</td>
-              <td>Actress <br><p><span style="color: #958DF1">Oh, for some reason that’s purple.</span> This text is using <span style="color: rgba(255, 0, 0, 0.5)">transparent, red rgba colors.</span></p></td>
-            </tr>
-          </tbody>
-        </table>`,
+
     immediatelyRender: false,
   })
   return (
