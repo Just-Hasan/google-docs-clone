@@ -5,7 +5,7 @@ import { UserButton } from '@clerk/nextjs'
 
 const Navbar = () => {
   return (
-    <nav className="flex h-full w-full items-center justify-between">
+    <nav className="flex h-full w-full items-center justify-between gap-x-3">
       <div className="flex shrink-0 items-center gap-3 pr-6">
         <Link href={'/'}>
           <Image src={'/logo.svg'} alt="Logo" height={36} width={36} />
