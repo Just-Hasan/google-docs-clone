@@ -1,7 +1,7 @@
 'use client'
 
 import { ClerkProvider, useAuth } from '@clerk/clerk-react'
-import { SignIn } from '@clerk/nextjs'
+import { SignIn } from '@clerk/clerk-react'
 import {
   Authenticated,
   AuthLoading,
