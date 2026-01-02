@@ -1,10 +1,43 @@
 'use client'
 
-import { ConvexProvider, ConvexReactClient } from 'convex/react'
+import { ClerkProvider, useAuth } from '@clerk/clerk-react'
+import { SignIn } from '@clerk/nextjs'
+import {
+  Authenticated,
+  AuthLoading,
+  ConvexReactClient,
+  Unauthenticated,
+} from 'convex/react'
+import { ConvexProviderWithClerk } from 'convex/react-clerk'
 import { ReactNode } from 'react'
+import FullScreenLoader from './fullscreen-loader'
 
-const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL!)
+if (!process.env.NEXT_PUBLIC_CONVEX_URL) {
+  throw new Error('Missing NEXT_PUBLIC_CONVEX_URL in your .env file')
+}
 
-export function ConvexClientProvider({ children }: { children: ReactNode }) {
-  return <ConvexProvider client={convex}>{children}</ConvexProvider>
+const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL)
+
+export default function ConvexClientProvider({
+  children,
+}: {
+  children: ReactNode
+}) {
+  return (
+    <ClerkProvider
+      publishableKey={`${process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}`}
+    >
+      <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
+        <Authenticated>{children}</Authenticated>
+        <Unauthenticated>
+          <div className="flex min-h-screen flex-col items-center justify-center">
+            <SignIn routing="hash" />
+          </div>
+        </Unauthenticated>
+        <AuthLoading>
+          <FullScreenLoader label="Auth Loading" />
+        </AuthLoading>
+      </ConvexProviderWithClerk>
+    </ClerkProvider>
+  )
 }

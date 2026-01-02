@@ -1,8 +1,9 @@
+import ConvexClientProvider from '@/components/convex-client-provider'
 import type { Metadata } from 'next'
-import './globals.css'
 import { Inter } from 'next/font/google'
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
-import { ConvexClientProvider } from '../components/convex-client-provider'
+import './globals.css'
+
 const inter = Inter({
   subsets: ['latin'],
   weight: ['400'],
