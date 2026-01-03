@@ -16,6 +16,8 @@ export const create = mutation({
       | string
       | undefined
 
+    console.log(organizationId)
+
     return await ctx.db.insert('documents', {
       title: args.title ?? 'Untitled Document',
       ownerId: user.subject,
@@ -87,7 +89,9 @@ export const removeById = mutation({
       | string
       | undefined
 
-    const isOrganizationMember = document.organizationId === organizationId
+    const isOrganizationMember = !!(
+      document.organizationId && organizationId === document.organizationId
+    )
 
     if (!isOwner && !isOrganizationMember) throw new ConvexError('Unauthorized')
 
@@ -110,10 +114,20 @@ export const updateById = mutation({
     if (!document) throw new ConvexError('Document not found')
 
     const isOwner = document.ownerId === user.subject
-    const isOrganizationMember = organizationId === document.organizationId
+    const isOrganizationMember = !!(
+      document.organizationId && organizationId === document.organizationId
+    )
 
     if (!isOwner && !isOrganizationMember) throw new ConvexError('Unauthorized')
 
     return await ctx.db.patch(args.id, { title: args.title })
+  },
+})
+
+export const getById = query({
+  args: { id: v.id('documents') },
+  handler: async (ctx, { id }) => {
+    const document = await ctx.db.get(id)
+    return document
   },
 })
