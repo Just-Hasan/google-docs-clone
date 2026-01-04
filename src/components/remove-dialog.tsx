@@ -2,6 +2,7 @@
 
 import { useMutation } from 'convex/react'
 import { Id } from '../../convex/_generated/dataModel'
+import { toast } from 'sonner'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -44,7 +45,12 @@ const RemoveDialog = ({ documentId, children }: RemoveDialogProps) => {
             onClick={(e) => {
               e.stopPropagation()
               setIsDeleting(true)
-              remove({ id: documentId }).finally(() => setIsDeleting(false))
+              remove({ id: documentId })
+                .catch(() => toast.error('Something went wrong'))
+                .then(() => toast.success('Document removed'))
+                .finally(() => {
+                  setIsDeleting(false)
+                })
             }}
           >
             Delete

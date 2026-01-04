@@ -36,6 +36,9 @@ import {
 } from 'lucide-react'
 import { BsFilePdf } from 'react-icons/bs'
 import { useEditorStore } from '@/store/use-editor-store'
+import { OrganizationSwitcher, UserButton } from '@clerk/nextjs'
+import { Avatars } from './avatar'
+import { Inbox } from './inbox'
 
 const Navbar = () => {
   const { editor } = useEditorStore()
@@ -255,6 +258,17 @@ const Navbar = () => {
             </Menubar>
           </div>
         </div>
+      </div>
+      <div className="flex items-center justify-center gap-x-4">
+        <Avatars />
+        <Inbox />
+        <OrganizationSwitcher
+          afterCreateOrganizationUrl={'/'}
+          afterLeaveOrganizationUrl="/"
+          afterSelectOrganizationUrl={'/'}
+          afterSelectPersonalUrl={'/'}
+        />
+        <UserButton />
       </div>
     </nav>
   )

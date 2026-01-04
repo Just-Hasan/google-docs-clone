@@ -34,7 +34,6 @@ interface ToolbarButtonProps {
 
 const Toolbar = () => {
   const { editor } = useEditorStore()
-  console.log(editor)
   const sections: {
     label: string
     icon: LucideIcon
@@ -93,8 +92,8 @@ const Toolbar = () => {
       {
         label: 'Comment',
         icon: MessageSquarePlusIcon,
-        onClick: () => console.log('comments'),
-        isActive: false,
+        onClick: () => editor?.chain().focus().addPendingComment().run(),
+        isActive: editor?.isActive('liveblocksCommentMark'),
       },
       {
         label: 'List Todo',
