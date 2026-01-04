@@ -6,7 +6,7 @@ import { api } from '../../../convex/_generated/api'
 import { DocumentsTable } from './documents-table'
 import { useSearchParam } from '@/hooks/use-search-param'
 const Home = () => {
-  const [search, setSearch] = useSearchParam()
+  const [search] = useSearchParam()
   const { status, results, loadMore } = usePaginatedQuery(
     api.documents.get,
     { search },
