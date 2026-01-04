@@ -25,7 +25,9 @@ const AvatarStack = () => {
   return (
     <TooltipProvider>
       <div className="flex items-center -space-x-2">
-        {currentUser && <AvatarItem src={currentUser.info.avatar} name="You" />}
+        {currentUser && users.length >= 1 && (
+          <AvatarItem src={currentUser.info.avatar} name="You" />
+        )}
 
         {users.map(({ connectionId, info }) => {
           return (
