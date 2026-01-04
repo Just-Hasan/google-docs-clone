@@ -1,6 +1,7 @@
 'use client'
 
 import FullScreenLoader from '@/components/fullscreen-loader'
+import { fetchQuery } from 'convex/nextjs'
 import { useLiveblocksRoom } from '@/hooks/use-liveblocks-room'
 import {
   ClientSideSuspense,
@@ -12,8 +13,11 @@ import { ReactNode, useEffect, useMemo, useState } from 'react'
 import { toast } from 'sonner'
 import { Id } from '../../../../convex/_generated/dataModel'
 import { getUsers } from './actions'
+import { LEFT_MARGIN_DEFAULT, RIGHT_MARGIN_DEFAULT } from '@/constants/margins'
+import { api } from '../../../../convex/_generated/api'
+import { getUserColor } from '@/lib/utils'
 
-type User = { id: string; name: string; avatar: string }
+type User = { id: string; name: string; avatar: string; color: string }
 
 export function Room({
   children,
@@ -26,11 +30,16 @@ export function Room({
   const { canAccess, document, isLoading } = useLiveblocksRoom(documentId)
   const router = useRouter()
   const [users, setUsers] = useState<User[]>([])
+
   const fetchUsers = useMemo(
     () => async () => {
       try {
         const list = await getUsers()
-        setUsers(list)
+        const usersWithColor: User[] = list.map((user) => ({
+          ...user,
+          color: getUserColor(user.name),
+        }))
+        setUsers(usersWithColor)
       } catch {
         toast.error('Failed to fetch users')
       }
@@ -47,7 +56,7 @@ export function Room({
       throw new Error('You cannot access this document')
   }, [isLoading, canAccess, router])
 
-  if (isLoading) return <div>Loading</div>
+  if (isLoading) return <FullScreenLoader label="Loading Document..." />
 
   if (!canAccess || !document)
     throw new Error('You cannot access this document')
@@ -77,20 +86,29 @@ export function Room({
         }
         return filteredUsers.map((user) => user.id)
       }}
-      resolveRoomsInfo={({ roomIds }) => {
-        // Langsung ambil dari map yang sudah ada
-        return roomIds.map((roomId) => {
-          return {
-            id: document._id,
-            name: document.title || 'Document',
-            url: `/documents/${roomId}`,
-          }
-        })
+      resolveRoomsInfo={async ({ roomIds }) => {
+        try {
+          const documents = await fetchQuery(api.documents.getByIds, {
+            ids: roomIds as Id<'documents'>[],
+          })
+
+          return documents.map((doc) => ({
+            id: doc.id,
+            name: doc.name,
+            url: `/documents/${doc.id}`,
+          }))
+        } catch (error) {
+          console.error('Failed to resolve rooms info:', error)
+          return []
+        }
       }}
     >
       <RoomProvider
         id={params.documentId as string}
-        initialStorage={{ leftMargin: 56, rightMargin: 56 }}
+        initialStorage={{
+          leftMargin: LEFT_MARGIN_DEFAULT,
+          rightMargin: RIGHT_MARGIN_DEFAULT,
+        }}
       >
         <ClientSideSuspense
           fallback={<FullScreenLoader label="Room loading..." />}
