@@ -49,6 +49,7 @@ export const Editor = ({ documentId }: EditorProps) => {
 
   const { setEditor } = useEditorStore()
   const editor = useEditor({
+    autofocus: true,
     // saat editor pertama kali dimuat / initialize
     onCreate: ({ editor }) => {
       setEditor(editor)
