@@ -115,7 +115,7 @@ export const Editor = ({ documentId }: EditorProps) => {
       Color,
       Highlight.configure({ multicolor: true }),
       Link.configure({
-        openOnClick: false,
+        openOnClick: true,
         autolink: true,
         defaultProtocol: 'https',
       }),
