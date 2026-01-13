@@ -14,6 +14,7 @@ import { cn } from '@/lib/utils'
 import { useEditorStore } from '@/store/use-editor-store'
 import {
   BoldIcon,
+  Code,
   ItalicIcon,
   ListTodoIcon,
   LucideIcon,
@@ -107,6 +108,14 @@ const Toolbar = () => {
         onClick: () => editor?.chain().focus().unsetAllMarks().run(),
       },
     ],
+    [
+      {
+        label: 'Codeblock',
+        icon: Code,
+        onClick: () => editor?.chain().focus().toggleCodeBlock().run(),
+        isActive: editor?.isActive('codeBlock'),
+      },
+    ],
   ]
   return (
     <div className="flex min-h-[40px] items-center gap-x-0.5 overflow-x-auto rounded-[24px] bg-[#f1f4f9] px-2.5 py-0.5">
@@ -136,6 +145,9 @@ const Toolbar = () => {
       <LineHeightButton />
       <ListButton />
       {sections[2].map((item) => {
+        return <ToolbarButton key={item.label} {...item} />
+      })}
+      {sections[3].map((item) => {
         return <ToolbarButton key={item.label} {...item} />
       })}
     </div>
