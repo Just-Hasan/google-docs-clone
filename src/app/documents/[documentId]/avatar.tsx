@@ -1,10 +1,14 @@
 'use client'
-import { Separator } from '@/components/ui/separator'
+
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { ClientSideSuspense } from '@liveblocks/react'
 import { useOthers, useSelf } from '@liveblocks/react/suspense'
-import Image from 'next/image'
-
-const AVATAR_SIZE = 36
 
 export const Avatars = () => {
   return (
@@ -18,46 +22,53 @@ const AvatarStack = () => {
   const users = useOthers()
   const currentUser = useSelf()
 
-  if (users.length === 0) return null
-
   return (
-    <>
-      <div className="flex items-center">
-        {currentUser && (
-          <div className="relative ml-2">
-            <Avatar src={currentUser.info.avatar} name="You" />
-          </div>
+    <TooltipProvider>
+      <div className="flex items-center -space-x-2">
+        {currentUser && users.length >= 1 && (
+          <AvatarItem src={currentUser.info.avatar} name="You" />
         )}
-        <div className="flex">
-          {users.map(({ connectionId, info }) => {
-            return (
-              <Avatar key={connectionId} src={info.avatar} name={info.name} />
-            )
-          })}
-        </div>
+
+        {users.map(({ connectionId, info }) => {
+          return (
+            <AvatarItem key={connectionId} src={info.avatar} name={info.name} />
+          )
+        })}
       </div>
-      <Separator orientation="vertical" className="h-6" />
-    </>
+    </TooltipProvider>
   )
 }
 
-interface AvatarProps {
-  src: string
-  name: string
+interface AvatarItemProps {
+  src?: string
+  name?: string
 }
 
-const Avatar = ({ name, src }: AvatarProps) => {
+const AvatarItem = ({ src, name }: AvatarItemProps) => {
+  const initials =
+    name
+      ?.split(' ')
+      .map((n) => n[0])
+      .join('')
+      .slice(0, 2)
+      .toUpperCase() || '??'
+
   return (
-    <div
-      className="group relative -ml-2 flex shrink-0 place-content-center rounded-full border-4 border-white bg-gray-400"
-      style={{ width: AVATAR_SIZE, height: AVATAR_SIZE }}
-    >
-      <div className="absolute top-full z-10 mt-2.5 whitespace-nowrap rounded-lg bg-black px-2 py-1 text-xs text-white opacity-0 transition-opacity group-hover:opacity-100">
-        {name}
-      </div>
-      <Image fill src={src} alt={name} className="size-full rounded-full" />
-    </div>
+    <Tooltip delayDuration={0}>
+      <TooltipTrigger asChild>
+        <Avatar className="border-2 border-background ring-2 ring-background transition-transform hover:z-10 hover:scale-110">
+          <AvatarImage src={src} alt={name} />
+          <AvatarFallback className="bg-gray-200 text-xs font-semibold">
+            {initials}
+          </AvatarFallback>
+        </Avatar>
+      </TooltipTrigger>
+      <TooltipContent
+        side="bottom"
+        className="border-none bg-black px-2 py-1 text-xs text-white"
+      >
+        <p>{name}</p>
+      </TooltipContent>
+    </Tooltip>
   )
 }
-
-export default Avatar

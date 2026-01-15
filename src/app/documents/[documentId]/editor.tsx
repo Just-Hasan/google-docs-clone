@@ -30,7 +30,13 @@ import { useQuery } from 'convex/react'
 import { api } from '../../../../convex/_generated/api'
 import { Id } from '../../../../convex/_generated/dataModel'
 import { LEFT_MARGIN_DEFAULT, RIGHT_MARGIN_DEFAULT } from '@/constants/margins'
+import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
+import { lowlight } from 'lowlight'
+import javascript from 'highlight.js/lib/languages/javascript'
+// import css from 'highlight.js/lib/languages/css'
 
+lowlight.registerLanguage('javascript', javascript)
+// lowlight.registerLanguage('css', css)
 interface EditorProps {
   initialContent?: string | undefined
   documentId: string
@@ -49,6 +55,7 @@ export const Editor = ({ documentId }: EditorProps) => {
 
   const { setEditor } = useEditorStore()
   const editor = useEditor({
+    autofocus: true,
     // saat editor pertama kali dimuat / initialize
     onCreate: ({ editor }) => {
       setEditor(editor)
@@ -91,6 +98,7 @@ export const Editor = ({ documentId }: EditorProps) => {
           'focus:outline-none print:border-0 bg-white border border-[#C7C7C7] flex flex-col min-h-[1054px] w-[816px] pt-10 pr-14 pb-10 cursor-text',
       },
     },
+
     extensions: [
       liveblocks,
       StarterKit.configure({
@@ -114,7 +122,7 @@ export const Editor = ({ documentId }: EditorProps) => {
       Color,
       Highlight.configure({ multicolor: true }),
       Link.configure({
-        openOnClick: false,
+        openOnClick: true,
         autolink: true,
         defaultProtocol: 'https',
       }),
@@ -124,6 +132,10 @@ export const Editor = ({ documentId }: EditorProps) => {
       LineHeightExtenstion.configure({
         types: ['heading', 'paragraph'],
         defaultLineHeight: 'normal',
+      }),
+      CodeBlockLowlight.configure({
+        lowlight,
+        languageClassPrefix: 'language-',
       }),
     ],
 
