@@ -10,7 +10,7 @@ const Navbar = () => {
         <Link href={'/'}>
           <Image src={'/logo.svg'} alt="Logo" height={36} width={36} />
         </Link>
-        <h3 className="text-xl">Docify</h3>
+        <h3 className="text-xl">Docs</h3>
       </div>
       <SearchInput />
       <div className="flex items-center justify-center gap-x-4">
