@@ -267,7 +267,7 @@ export const templates = [
         <div style="margin-bottom: 30px;">
           <p style="margin: 0; color: #4b5563; font-size: 14px;">[Date]</p>
         </div>
-
+        
         <div style="margin-bottom: 30px;">
           <p style="margin: 0; color: #374151; font-size: 14px;">[Recipient Name]</p>
           <p style="margin: 3px 0; color: #374151; font-size: 14px;">[Recipient Title]</p>

@@ -7,10 +7,6 @@ import { api } from '../../../../convex/_generated/api'
 
 const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!)
 
-type ClaimsWithOrg = {
-  o?: { id?: string }
-}
-
 export async function getDocuments(ids: Id<'documents'>[]) {
   return await convex.query(api.documents.getByIds, { ids })
 }
@@ -20,24 +16,58 @@ export async function getAllUsers() {
   return clerk.users.getUserList()
 }
 
-export async function getUsers() {
-  const { sessionClaims } = await auth()
-  const clerk = await clerkClient()
+interface ClerkSessionClaims {
+  org_id?: string
+  o?: { id: string }
+}
 
-  const orgId = (sessionClaims as ClaimsWithOrg)?.o?.id
+export interface DocifyUser {
+  id: string
+  name: string
+  avatar: string
+}
 
-  if (!orgId) throw new Error('Organization not found')
+export async function getUsers(): Promise<DocifyUser[]> {
+  try {
+    const { sessionClaims, userId } = await auth()
+    const client = await clerkClient()
+    const claims = sessionClaims as unknown as ClerkSessionClaims
+    const orgId = claims?.org_id || claims?.o?.id
+    if (orgId) {
+      const response = await client.users.getUserList({
+        organizationId: [orgId],
+      })
 
-  const response = await clerk.users.getUserList({
-    organizationId: [orgId],
-  })
+      return response.data.map((user) => ({
+        id: user.id,
+        name:
+          user.fullName ??
+          user.primaryEmailAddress?.emailAddress ??
+          'Anonymous',
+        avatar: user.imageUrl,
+      }))
+    }
 
-  const users = response.data.map((user) => ({
-    id: user.id,
-    name:
-      user.fullName ?? user.primaryEmailAddress?.emailAddress ?? ' Anonymous',
-    avatar: user.imageUrl,
-  }))
+    if (userId) {
+      const user = await client.users.getUser(userId)
+      return [
+        {
+          id: user.id,
+          name:
+            user.fullName ??
+            user.primaryEmailAddress?.emailAddress ??
+            'Anonymous',
+          avatar: user.imageUrl,
+        },
+      ]
+    }
 
-  return users
+    return []
+  } catch (error) {
+    console.error(
+      '[getUsers Error]:',
+      error instanceof Error ? error.message : error,
+    )
+    return []
+  }
 }
