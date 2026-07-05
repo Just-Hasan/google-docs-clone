@@ -3,6 +3,7 @@ import '@liveblocks/react-ui/styles.css'
 import '@liveblocks/react-tiptap/styles.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import Script from 'next/script'
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import './globals.css'
 import { Toaster } from '@/components/ui/sonner'
@@ -25,10 +26,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <script
+        <Script
           data-organization-id="org_3FqBlQ3PWVtRUx3WMWWE2bj8u2J"
           src="https://auxilium-widget.vercel.app/widget.js"
-        ></script>
+        />
         <Toaster position="top-right" />
         <NuqsAdapter>
           <ConvexClientProvider>{children}</ConvexClientProvider>
