@@ -103,6 +103,8 @@ export const Editor = ({ documentId }: EditorProps) => {
       liveblocks,
       StarterKit.configure({
         history: false,
+        heading: false,
+        codeBlock: false,
       }),
       FontSizeExtension,
       TaskList,
