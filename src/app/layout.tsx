@@ -25,6 +25,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <script
+          data-organization-id="org_3FqBlQ3PWVtRUx3WMWWE2bj8u2J"
+          src="https://auxilium-widget.vercel.app/widget.js"
+        ></script>
         <Toaster position="top-right" />
         <NuqsAdapter>
           <ConvexClientProvider>{children}</ConvexClientProvider>
